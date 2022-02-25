@@ -1,0 +1,46 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "smart writer",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "SentimentIntent",
+          "slots": [
+            {
+              "name": "statement",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "ok {statement}",
+            "fine {statement} ",
+            "{statement} alexa",
+            "alexa {statement}"
+          ]
+        }
+      ],
+      "types": []
+    }
+  },
+  "version": "5"
+}
