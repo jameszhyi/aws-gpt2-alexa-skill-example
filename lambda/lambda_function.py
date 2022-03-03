@@ -9,6 +9,20 @@ import ask_sdk_core.utils as ask_utils
 import boto3
 import json
 
+role_arn = "arn:aws:iam::869312567674:role/AmazonSageMakerEndpoint-Role"
+ENDPOINT_NAME = "huggingface-pytorch-inference-2022-02-25-16-59-36-576"
+
+# 1. Assume the AWS resource role using STS AssumeRole Action
+sts_client = boto3.client('sts')
+assumed_role_object=sts_client.assume_role(RoleArn=role_arn, RoleSessionName="AssumeRoleSession1")
+credentials=assumed_role_object['Credentials']
+
+sagemakerruntime = boto3.client(
+    'sagemaker-runtime',
+    aws_access_key_id=credentials['AccessKeyId'],
+    aws_secret_access_key=credentials['SecretAccessKey'],
+    aws_session_token=credentials['SessionToken'],
+    region_name='us-east-1')
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler
@@ -39,42 +53,13 @@ class LaunchRequestHandler(AbstractRequestHandler):
                 .response
         )
 
-def getSentimentAnalysis(sentence):
-    ENDPOINT_NAME = "huggingface-pytorch-training-2021-07-19-22-20-22-072"
-    client = boto3.client(
-        'sagemaker-runtime',
-        aws_access_key_id='11111111111111111111',
-        aws_secret_access_key='11111111111111111111',
-        )
-    
-    event = {"inputs":[sentence]}
-    
-    payload = json.loads(json.dumps(event))
-    user_encode_data = json.dumps(payload).encode('utf-8')
-    
-    response = client.invoke_endpoint(EndpointName=ENDPOINT_NAME,
-                                       Body=user_encode_data,
-                                       ContentType='application/json',
-                                       )
-    result = json.loads(response['Body'].read().decode())
-    predicted_label = result[0]['label']
-    predicted_sentiment = 'Positive' if predicted_label == 'LABEL_1' else 'Negative'
-    return(predicted_sentiment)
-
 def generateText(sentence):
-    ENDPOINT_NAME = "huggingface-pytorch-inference-2022-02-25-16-59-36-576"
-    client = boto3.client(
-        'sagemaker-runtime',
-        aws_access_key_id='11111111111111111111',
-        aws_secret_access_key='11111111111111111111',
-        )
-    
     event = {"inputs":[sentence],"length":100, "repetition_penalty": 10, "num_return_sequences":1}
     
     payload = json.loads(json.dumps(event))
     user_encode_data = json.dumps(payload).encode('utf-8')
     
-    response = client.invoke_endpoint(EndpointName=ENDPOINT_NAME,
+    response = sagemakerruntime.invoke_endpoint(EndpointName=ENDPOINT_NAME,
                                        Body=user_encode_data,
                                        ContentType='application/json',
                                        )
@@ -91,7 +76,6 @@ class SentimentIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         sentence = handler_input.request_envelope.request.intent.slots['statement'].value
-        #speak_output = getSentimentAnalysis(sentence)
         speak_output = generateText(sentence)
         
         return (
