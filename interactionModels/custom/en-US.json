@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "ai novel writer",
+      "invocationName": "virtual ai writer",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -24,7 +24,7 @@
           "samples": []
         },
         {
-          "name": "SentimentIntent",
+          "name": "TextGenIntent",
           "slots": [
             {
               "name": "statement",
@@ -33,7 +33,7 @@
           ],
           "samples": [
             "ok {statement}",
-            "fine {statement} ",
+            "sure {statement} ",
             "{statement} alexa",
             "alexa {statement}"
           ]
@@ -42,5 +42,5 @@
       "types": []
     }
   },
-  "version": "1"
+  "version": "3"
 }

@@ -9,10 +9,10 @@ import ask_sdk_core.utils as ask_utils
 import boto3
 import json
 
-role_arn = "arn:aws:iam::869312567674:role/AmazonSageMakerEndpoint-Role"
-ENDPOINT_NAME = "huggingface-pytorch-inference-2022-02-25-16-59-36-576"
+role_arn = "<Replace with your IAM Role ARN from your AWS account>"
+ENDPOINT_NAME = "<Replace with the SageMaker Endpoint ARN>"
 
-# 1. Assume the AWS resource role using STS AssumeRole Action
+# Assume the AWS resource role using STS AssumeRole Action
 sts_client = boto3.client('sts')
 assumed_role_object=sts_client.assume_role(RoleArn=role_arn, RoleSessionName="AssumeRoleSession1")
 credentials=assumed_role_object['Credentials']
@@ -67,11 +67,11 @@ def generateText(sentence):
     predicted_text = result[0]['generated_text']
     return(predicted_text)
 
-class SentimentIntentHandler(AbstractRequestHandler):
+class TextGenIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
-        return ask_utils.is_intent_name("SentimentIntent")(handler_input)
+        return ask_utils.is_intent_name("TextGenIntent")(handler_input)
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
@@ -202,7 +202,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
-sb.add_request_handler(SentimentIntentHandler())
+sb.add_request_handler(TextGenIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(FallbackIntentHandler())

@@ -5,7 +5,7 @@
             "Action": "sagemaker:InvokeEndpoint",
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:sagemaker:us-east-1:869312567674:endpoint/huggingface-pytorch-inference-2022-02-25-16-59-36-576"
+                "<Replace with the SageMaker Endpoint ARN>"
             ]
         }
     ]

@@ -4,7 +4,7 @@
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::233560155573:role/AlexaHostedSkillLambdaRole"
+                "AWS": "<Replace with AWS Lambda Execution Role ARN from Alexa-hosted skill>"
             },
             "Action": "sts:AssumeRole"
         }
