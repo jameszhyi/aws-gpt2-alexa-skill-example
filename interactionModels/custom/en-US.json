@@ -32,15 +32,14 @@
             }
           ],
           "samples": [
+            "I would like to start as {statement}",
             "ok {statement}",
-            "sure {statement} ",
-            "{statement} alexa",
-            "alexa {statement}"
+            "The begining is {statement} "
           ]
         }
       ],
       "types": []
     }
   },
-  "version": "3"
+  "version": "2"
 }
